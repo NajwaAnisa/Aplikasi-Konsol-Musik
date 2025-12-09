@@ -4,6 +4,7 @@ using namespace std;
 
 int main()
 {
+<<<<<<< HEAD
     listUser LU;
     listSong LS;
     createListUser(LU);
@@ -44,9 +45,6 @@ int main()
     }
 
     cout << "Program selesai.\n";
-
-    return 0;
-
 
 }
 

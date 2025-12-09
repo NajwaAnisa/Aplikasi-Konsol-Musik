@@ -23,8 +23,15 @@ struct listSong{
     adrSong first;
     adrSong last;
 };
+// --- 2. Relasi antara Playlist dengan Song
+typedef struct elmRelasiPlaylistSong *adrRelasi;
 
-// --- 2. Daftar User (Singly Linked List)
+struct elmRelasiPlaylistSong{
+    adrRelasi next;
+    adrRelasi prev;
+    adrSong pointerSong;
+};
+// --- 3. Daftar User (Singly Linked List)
 
 typedef struct  elmUser *adrUser;
 typedef struct elmPlaylist *adrPlaylist;
@@ -44,10 +51,10 @@ struct listUser {
     adrUser first;
 };
 
-// --- 3. Playlist User
+// --- 4. Playlist User
 
 struct playlistInfo{
-  string title;
+  string namaPlaylist;
   int countSong;
   int durasiTotal;
 };
@@ -58,25 +65,61 @@ struct elmPlaylist{
     adrSong firstSong;
 };
 
-struct listPlayist{
+struct listPlaylist{
     adrPlaylist first;
     adrPlaylist last;
 };
-void createListSong(listSong &LS);
-adrSong createElmSong(int song_id, string title, string artist, string genre, string album, int duration_seconds);
+
+//menu //
+void menuUser(listUser &LU, listSong &LS, adrUser user);
+void menuAdmin(listUser &LU, listSong &LS);
+void menuPlaylist(listSong &LS, adrUser user);
+
+// user //
 void createListUser(listUser &LU);
 adrUser createElmUser(string username, string password, string role);
-void menuUser();
-void menuAdmin(listUser &LU, listSong &LS);
 void insertFirstUser(listUser &LU, adrUser p);
 void displayUser(listUser LU);
 adrUser login(listUser LU, string username, string password);
 
+// lagu //
+void createListSong(listSong &LS);
+adrSong createElmSong(int song_id, string title, string artist, string genre, string album, int duration_seconds);
 void insertLastSong(listSong &LS, adrSong p); //menambah lagu
 void displaySong(listSong LS); // melihat lagu
 adrSong findSong(listSong LS, string title);
 void editSong(listSong &LS); // mengubah data lagu
-void deleteSong(SongInfo &LS); //mengahapus lagu
+void deleteSong(listSong &LS); //mengahapus lagu general
+void deleteFirst(listSong &LS, adrSong &p);
+void deleteLast(listSong &LS, adrSong &p);
+void deleteAfter(listSong &LS, adrSong prec, adrSong &p);
+
+//Playlist//
+void createListPlaylist(listPlaylist &LP);
+adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal);
+void addPlaylist(adrUser &u, adrPlaylist p);
+void displayAllSongs(listSong LS);//??
+void displayPlaylist(adrUser u);
+
+// Untuk pemutaran//
+void playSongLibrary(adrSong song);
+void stopCurrentSongLibrary();
+void prevSongLibrary(listSong &LS, adrUser user);
+void nextSongLibrary();
+
+void playSongPlaylist();
+void nextSongPlaylist();
+void prevSongPlaylist();
+void stopSongPlaylist();
+
+// Untuk Playlist (terhubung ke adrUser user)
+void addSongToPlaylist(listSong &LS, adrUser user, string playlistName, string songTitle);
+
+void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle);
+void displayPlaylistSongs(adrUser user, string playlistName);
+void playPlaylist(adrUser user, string playlistName);
+
+adrRelasi createElmPointerSong(adrSong q);
 
 
 
