@@ -372,6 +372,73 @@ void displayAllSongs(listSong LS) {
     cout << "------------------------------------------------------------\n";
 }
 
+void deleteFirst(listSong &LS, adrSong &p){
+    p = LS.first;
+    if (LS.first == nullptr){
+        cout << "Library lagu kosong .\n";
+    } else if (LS.first == LS.last){
+        LS.first = nullptr;
+        LS.last = nullptr;
+    } else {
+        LS.first = p -> next;
+        LS.first -> prev = nullptr;
+        p -> next = nullptr;
+    }
+}
+void deleteLast(listSong &LS, adrSong &p){
+    p = LS.last;
+    if (LS.first == nullptr){
+        cout << "Library lagu kosong .\n";
+    } else if (LS.first == LS.last){
+        LS.first = nullptr;
+        LS.last = nullptr;
+    } else {
+        LS.last = p -> prev;
+        LS.last -> next = nullptr;
+        p -> prev = nullptr;
+    }
+}
+void deleteAfter(listSong &LS, adrSong prec, adrSong &p){
+    if (prec == nullptr || prec -> next == nullptr){
+        return;
+    }
+    p = prec -> next;
+    if(p == LS.last){
+        deleteLast(LS, p);
+    }
+    prec -> next = p -> next;
+    prec -> next -> prev = prec;
+    p -> next = nullptr;
+    p -> prev = nullptr;
+}
+
+void deleteSong(listSong &LS){
+    string title;
+    cout << "Masukkan judul lagu yang akan dihapus: ";
+    cin >> title;
+
+    adrSong p = findSong(LS, title);
+    adrSong prec = nullptr;
+    adrSong deleteNode = nullptr;
+
+    if (p == nullptr){
+        cout << "Lagu dengan judul " << title << " tidak ditemukan dalam library.\n";
+        return;
+    }
+
+    if (p == LS.first){
+        deleteFirst(LS, deleteNode);
+    } else if (p == LS.last){
+        deleteLast(LS, deleteNode);
+    } else {
+        prec = p -> prev;
+        deleteAfter(LS, prec, deleteNode);
+    }
+    if (deleteNode != nullptr){
+        delete deleteNode;
+        cout << "Lagu dengan judul "<< title << " berhasil dihapus dari library.\n";
+    }
+}
 
 void displayPlaylist(adrUser u){
     if (u == nullptr) {
