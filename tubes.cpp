@@ -269,15 +269,6 @@ void menuAdmin(listUser &LU, listSong &LS){
 
     } while (pil != 0);
 }
-
-adrRelasi createElmPointerSong(adrSong q){
-    adrRelasi p = new elmRelasiPlaylistSong;
-    p -> next = nullptr;
-    p -> prev = nullptr;
-    p -> pointerSong = q;
-    return p;
-}
-
 void menuUser(listUser &LU, listSong &LS, adrUser user) {
     int pilihan = -1;
     adrSong currentlyPlaying = nullptr; // Lagu yang sedang diputar, bisa dari LS atau Playlist
@@ -501,7 +492,6 @@ adrSong nextSongLibrary(listSong &LS, adrSong current) {
             return current->next;
         }
     }
-}
 adrSong prevSongLibrary(listSong &LS, adrSong current) {
     if (current == nullptr) {
         cout << " Tidak ada lagu yang sedang diputar untuk pindah ke selanjutnya.\n";
@@ -512,7 +502,6 @@ adrSong prevSongLibrary(listSong &LS, adrSong current) {
             return current->prev;
         }
     }
-}
 
 adrRelasi nextSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p){
     if (p == nullptr) {
