@@ -9,6 +9,10 @@ void createListSong(listSong &LS){
     LS.first = nullptr;
     LS.last = nullptr;
 }
+void createListPlaylist(listPlaylist &LP){
+    LP.first = nullptr;
+    LP.last = nullptr;
+}
 adrSong createElmSong(int song_id, string title, string artist, string genre, string album, int duration_seconds){
     adrSong p = new elmSong;
     p->info.song_id = song_id;
@@ -31,7 +35,22 @@ adrUser createElmUser(string username, string password, string role){
     p->nextPlaylist = nullptr;
     return p;
 }
-
+adrPlaylist createElmPlayist(string namaPlaylist, int countSong, int durasiTotal){
+    adrPlaylist p = new elmPlaylist;
+    p->info.namaPlaylist = namaPlaylist;
+    p->info.countSong = 0;
+    p->info.durasiTotal = 0;
+    p->nextPlaylist = nullptr;
+    p->firstSong = nullptr;
+    return p;
+}
+adrRelasi createElmPointerSong(adrSong q){
+    adrRelasi p = new elmRelasiPlaylistSong;
+    p->next = nullptr;
+    p->prev = nullptr;
+    p->pointerSong = q;
+    return p;
+}
 void insertFirstUser(listUser &LU, adrUser p){
     if (LU.first == nullptr){
         LU.first = p;
@@ -127,6 +146,85 @@ void editSong(listSong &LS){
     cout << "\nLagu berhasil diedit!\n";
 
 }
+void deleteFirstSong(listSong &LS, adrSong &p){
+    p = LS.first;
+
+    // hanya 1 elemen
+    if (LS.first == LS.last) {
+        LS.first = nullptr;
+        LS.last = nullptr;
+    } else {
+        LS.first = p->next;
+        LS.first->prev = nullptr;
+        p->next = nullptr;
+    }
+}
+void deleteLastSong(listSong &LS, adrSong &p){
+    p = LS.last;
+
+    // hanya 1 elemen
+    if (LS.first == LS.last) {
+        LS.first = nullptr;
+        LS.last = nullptr;
+    } else {
+        LS.last = p->prev;
+        LS.last->next = nullptr;
+        p->prev = nullptr;
+    }
+}
+
+void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p){
+    p = prec->next;
+
+    prec->next = p->next;
+    p->next->prev = prec;
+
+    p->next = nullptr;
+    p->prev = nullptr;
+}
+
+void deleteSong(listSong &LS){
+    if (LS.first == nullptr) {
+        cout << "Tidak ada lagu dalam list!\n";
+        return;
+    }
+
+    string title;
+    cout << "Masukkan judul lagu yang ingin dihapus: ";
+    cin >> title;
+
+    adrSong P = findSong(LS, title);
+
+    if (P == nullptr) {
+        cout << "Lagu tidak ditemukan!\n";
+        return;
+    }
+
+    adrSong prec = nullptr;
+    adrSong temp = LS.first;
+
+    // cari prec
+    while (temp != nullptr && temp->next != P) {
+        temp = temp->next;
+    }
+    prec = temp;
+
+    adrSong deletedNode = nullptr;
+
+    // --- Hapus node ---
+    if (P == LS.first) {
+        deleteFirstSong(LS, deletedNode);
+    }else if (P == LS.last) {
+        deleteLastSong(LS, deletedNode);
+    }else {
+        deleteAfterSong(LS, prec, deletedNode);
+    }
+
+    // hapus memori node yang diambil
+    delete deletedNode;
+
+    cout << "Lagu berhasil dihapus!\n";
+}
 
 void menuAdmin(listUser &LU, listSong &LS){
     int pil;
@@ -165,7 +263,9 @@ void menuAdmin(listUser &LU, listSong &LS){
             displaySong(LS);
         } else if (pil == 3){
             editSong(LS);
-        } 
+        } else if (pil == 4){
+            deleteSong(LS);
+        }
 
     } while (pil != 0);
 }
