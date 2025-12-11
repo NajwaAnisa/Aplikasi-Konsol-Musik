@@ -98,26 +98,25 @@ void deleteAfter(listSong &LS, adrSong prec, adrSong &p);
 void createListPlaylist(listPlaylist &LP);
 adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal);
 void addPlaylist(adrUser &u, adrPlaylist p);
-void displayAllSongs(listSong LS);//??
+void displayAllSongs(listSong LS);
 void displayPlaylist(adrUser u);
 
 // Untuk pemutaran//
-void playSongLibrary(adrSong song);
-void stopCurrentSongLibrary();
-void prevSongLibrary(listSong &LS, adrUser user);
-void nextSongLibrary();
+void playSong(adrSong song);
+void stopSong(adrSong song);
+adrSong nextSongLibrary(listSong &LS, adrSong current);
+adrSong prevSongLibrary(listSong &LS, adrSong current);
 
-void playSongPlaylist();
-void nextSongPlaylist();
-void prevSongPlaylist();
-void stopSongPlaylist();
+adrRelasi nextSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
+adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
+
 
 // Untuk Playlist (terhubung ke adrUser user)
-void addSongToPlaylist(listSong &LS, adrUser user, string playlistName, string songTitle);
+void addSongToPlaylist(listSong &LS, adrUser user, string playlistName, string songTitle); //ini blm
 
-void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle);
-void displayPlaylistSongs(adrUser user, string playlistName);
-void playPlaylist(adrUser user, string playlistName);
+void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle); // ini blm
+void displayPlaylistSongs(adrUser user, string playlistName); // ini blm
+void playPlaylist(adrUser user, string playlistName); //ini blm tentu kepake
 
 adrRelasi createElmPointerSong(adrSong q);
 
