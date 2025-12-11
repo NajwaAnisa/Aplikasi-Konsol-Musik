@@ -90,9 +90,9 @@ void displaySong(listSong LS); // melihat lagu
 adrSong findSong(listSong LS, string title);
 void editSong(listSong &LS); // mengubah data lagu
 void deleteSong(listSong &LS); //mengahapus lagu general
-void deleteFirst(listSong &LS, adrSong &p);
-void deleteLast(listSong &LS, adrSong &p);
-void deleteAfter(listSong &LS, adrSong prec, adrSong &p);
+void deleteFirstSong(listSong &LS, adrSong &p);
+void deleteLastSong(listSong &LS, adrSong &p);
+void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p);
 
 //Playlist//
 void createListPlaylist(listPlaylist &LP);
