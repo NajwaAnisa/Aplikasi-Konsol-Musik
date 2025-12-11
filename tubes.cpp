@@ -170,6 +170,13 @@ void menuAdmin(listUser &LU, listSong &LS){
     } while (pil != 0);
 }
 
+adrRelasi createElmPointerSong(adrSong q){
+    adrRelasi p = new elmRelasiPlaylistSong;
+    p -> next = nullptr;
+    p -> prev = nullptr;
+    p -> pointerSong = q;
+    return p;
+}
 
 void menuUser(listUser &LU, listSong &LS, adrUser user) {
     int pilihan = -1;
