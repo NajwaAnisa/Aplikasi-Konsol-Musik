@@ -112,7 +112,7 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
 
 
 // Untuk Playlist (terhubung ke adrUser user)
-void addSongToPlaylist(listSong &LS, adrUser user, string playlistName, string songTitle); //ini blm
+void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title); 
 
 void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle); // ini blm
 void displayPlaylistSongs(adrUser user, string playlistName); // ini blm

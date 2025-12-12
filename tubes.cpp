@@ -614,3 +614,43 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p) {
     }
 }
 
+void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title) {
+
+    // 1. Cari playlist berdasarkan nama
+    adrPlaylist PL = searchPlaylistUser(user, namaPlaylist);
+    if (PL == nullptr) {
+        cout << "Playlist tidak ditemukan!\n";
+        return;
+    }
+
+    // 2. Cari lagu di library berdasarkan judul
+    adrSong S = findSong(LS, title);
+    if (S == nullptr) {
+        cout << "Lagu tidak ditemukan di Library!\n";
+        return;
+    }
+
+    // 3. Buat node relasi (menghubungkan playlist -> song)
+    adrRelasi R = createElmPointerSong(S);
+
+    // 4. Insert LAST ke dalam list relasi playlist
+    if (PL->firstSong == nullptr) {
+        // jika playlist masih kosong
+        PL->firstSong = R;
+    } else {
+        // jika sudah ada lagu → cari LAST
+        adrRelasi Q = PL->firstSong;
+        while (Q->next != nullptr) {
+            Q = Q->next;
+        }
+        Q->next = R;
+        R->prev = Q;
+    }
+
+    // 5. Update informasi playlist
+    PL->info.countSong++;
+    PL->info.durasiTotal += S->info.duration_seconds;
+
+    cout << "Lagu \"" << title << "\" berhasil ditambahkan ke playlist \""
+         << namaPlaylist << "\".\n";
+}
