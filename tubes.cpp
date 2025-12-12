@@ -614,3 +614,56 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p) {
     }
 }
 
+
+void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle){
+    adrPlaylist p;
+    p = user->nextPlaylist;
+    //cari playlist terlebih dahulu
+    while(p != nullptr && p->info.namaPlaylist == playlistName){
+        p = p -> nextPlaylist;
+    }
+    adrRelasi r = p->firstSong;
+    //cari relasi yang menunjuk ke lagu yang mau dihapus di playlist tersebut
+    while (r != nullptr && r->pointerSong->info.title != songTitle){
+        r = r -> next;
+    }
+    if (r == nullptr){
+        cout << "Lagu \"" << songTitle << "\ tidak ditemukan dalam playlist.\n";
+    }
+    //Menghapus node relasi
+    if (r->prev == nullptr){
+        //delete node pertama
+        p->firstSong = r->next;
+        r->next->prev = nullptr;
+    } else {
+        r->prev->next = r->next;
+        r->next->prev = r->prev;
+    }
+    delete r;
+
+    cout << "Lagu \"" << songTitle << "\" berhasil dihapus dari playlist \"" << playlistName << "\".\n";
+}
+
+void displayPlaylistSongs(adrUser user, string playlistName){
+    adrPlaylist p = user->nextPlaylist;
+    //Mencari playlist lebih dulu
+
+    if (p == nullptr){
+        cout << "Playlist tidak ditemukan. \n";
+    }
+    adrRelasi r = p->firstSong;
+    if (r == nullptr){
+        cout << "Playlist \"" << playlistName << "\" masih kosong. \n";
+    }
+    cout << "\n=== Lagu dalam Playlist: " << playlistName << " ===\n";
+    while(r != nullptr){
+        cout << "- " << r->pointerSong->info.title
+             <<  " | " << r->pointerSong->info.artist
+             << " | " << r->pointerSong->info.genre
+             << " | " << r->pointerSong->info.album
+             << " (" << r->pointerSong->info.duration_seconds << " detik)\n";
+
+        r = r -> next;
+    }
+}
+
