@@ -90,34 +90,33 @@ void displaySong(listSong LS); // melihat lagu
 adrSong findSong(listSong LS, string title);
 void editSong(listSong &LS); // mengubah data lagu
 void deleteSong(listSong &LS); //mengahapus lagu general
-void deleteFirst(listSong &LS, adrSong &p);
-void deleteLast(listSong &LS, adrSong &p);
-void deleteAfter(listSong &LS, adrSong prec, adrSong &p);
+void deleteFirstSong(listSong &LS, adrSong &p);
+void deleteLastSong(listSong &LS, adrSong &p);
+void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p);
 
 //Playlist//
 void createListPlaylist(listPlaylist &LP);
 adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal);
 void addPlaylist(adrUser &u, adrPlaylist p);
-void displayAllSongs(listSong LS);//??
+void displayAllSongs(listSong LS);
 void displayPlaylist(adrUser u);
 
 // Untuk pemutaran//
-void playSongLibrary(adrSong song);
-void stopCurrentSongLibrary();
-void prevSongLibrary(listSong &LS, adrUser user);
-void nextSongLibrary();
+void playSong(adrSong song);
+void stopSong(adrSong song);
+adrSong nextSongLibrary(listSong &LS, adrSong current);
+adrSong prevSongLibrary(listSong &LS, adrSong current);
 
-void playSongPlaylist();
-void nextSongPlaylist();
-void prevSongPlaylist();
-void stopSongPlaylist();
+adrRelasi nextSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
+adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
+
 
 // Untuk Playlist (terhubung ke adrUser user)
-void addSongToPlaylist(listSong &LS, adrUser user, string playlistName, string songTitle);
+void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title); 
 
-void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle);
-void displayPlaylistSongs(adrUser user, string playlistName);
-void playPlaylist(adrUser user, string playlistName);
+void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle); // ini blm
+void displayPlaylistSongs(adrUser user, string playlistName); // ini blm
+void playPlaylist(adrUser user, string playlistName); //ini blm tentu kepake
 
 adrRelasi createElmPointerSong(adrSong q);
 
