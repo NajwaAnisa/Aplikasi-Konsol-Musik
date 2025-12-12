@@ -100,6 +100,7 @@ adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTota
 void addPlaylist(adrUser &u, adrPlaylist p);
 void displayAllSongs(listSong LS);
 void displayPlaylist(adrUser u);
+adrPlaylist searchPlaylistUser(adrUser user, string namaPlaylist);
 
 // Untuk pemutaran//
 void playSong(adrSong song);
@@ -113,10 +114,14 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
 
 // Untuk Playlist (terhubung ke adrUser user)
 void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title); 
-
 void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle); // ini blm
 void displayPlaylistSongs(adrUser user, string playlistName); // ini blm
 void playPlaylist(adrUser user, string playlistName); //ini blm tentu kepake
+
+void deleteFirstPlaylist(adrUser &user);
+void deleteLastPlaylist(adrUser &user);
+void deleteAfterPlaylist(adrPlaylist prec);
+void deletePlaylist(adrUser &user, string namaPlaylist);
 
 adrRelasi createElmPointerSong(adrSong q);
 
