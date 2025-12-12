@@ -371,75 +371,6 @@ void displayAllSongs(listSong LS) {
 
     cout << "------------------------------------------------------------\n";
 }
-
-void deleteFirst(listSong &LS, adrSong &p){
-    p = LS.first;
-    if (LS.first == nullptr){
-        cout << "Library lagu kosong .\n";
-    } else if (LS.first == LS.last){
-        LS.first = nullptr;
-        LS.last = nullptr;
-    } else {
-        LS.first = p -> next;
-        LS.first -> prev = nullptr;
-        p -> next = nullptr;
-    }
-}
-void deleteLast(listSong &LS, adrSong &p){
-    p = LS.last;
-    if (LS.first == nullptr){
-        cout << "Library lagu kosong .\n";
-    } else if (LS.first == LS.last){
-        LS.first = nullptr;
-        LS.last = nullptr;
-    } else {
-        LS.last = p -> prev;
-        LS.last -> next = nullptr;
-        p -> prev = nullptr;
-    }
-}
-void deleteAfter(listSong &LS, adrSong prec, adrSong &p){
-    if (prec == nullptr || prec -> next == nullptr){
-        return;
-    }
-    p = prec -> next;
-    if(p == LS.last){
-        deleteLast(LS, p);
-    }
-    prec -> next = p -> next;
-    prec -> next -> prev = prec;
-    p -> next = nullptr;
-    p -> prev = nullptr;
-}
-
-void deleteSong(listSong &LS){
-    string title;
-    cout << "Masukkan judul lagu yang akan dihapus: ";
-    cin >> title;
-
-    adrSong p = findSong(LS, title);
-    adrSong prec = nullptr;
-    adrSong deleteNode = nullptr;
-
-    if (p == nullptr){
-        cout << "Lagu dengan judul " << title << " tidak ditemukan dalam library.\n";
-        return;
-    }
-
-    if (p == LS.first){
-        deleteFirst(LS, deleteNode);
-    } else if (p == LS.last){
-        deleteLast(LS, deleteNode);
-    } else {
-        prec = p -> prev;
-        deleteAfter(LS, prec, deleteNode);
-    }
-    if (deleteNode != nullptr){
-        delete deleteNode;
-        cout << "Lagu dengan judul "<< title << " berhasil dihapus dari library.\n";
-    }
-}
-
 void displayPlaylist(adrUser u){
     if (u == nullptr) {
         cout << "User tidak ditemukan.\n";
@@ -533,6 +464,95 @@ void addPlaylist(adrUser &u, adrPlaylist p) {
         }
         q->nextPlaylist = p;  // sambungkan playlist baru di akhir
     }
+}
+adrPlaylist searchPlaylistUser(adrUser user, string namaPlaylist) {
+    adrPlaylist P = user->nextPlaylist;
+    while (P != nullptr) {
+        if (P->info.namaPlaylist == namaPlaylist) {
+            return P;
+        }
+        P = P->nextPlaylist;
+    }
+    return nullptr;
+}
+void deleteFirstPlaylist(adrUser &user) {
+    adrPlaylist p = user->nextPlaylist;
+
+    if (p == nullptr) {
+        cout << "Tidak ada playlist.\n";
+        return;
+    }
+
+    // Geser head
+    user->nextPlaylist = p->nextPlaylist;
+
+    // Putuskan link
+    p->nextPlaylist = nullptr;
+}
+
+void deleteLastPlaylist(adrUser &user) {
+
+    if (user->nextPlaylist == nullptr) {
+        cout << "Tidak ada playlist.\n";
+        return;
+    }
+
+    adrPlaylist p = user->nextPlaylist;
+
+    // Jika hanya 1 node → sama seperti delete first
+    if (p->nextPlaylist == nullptr) {
+        user->nextPlaylist = nullptr;
+        return;
+    }
+
+    // Cari node sebelum terakhir
+    adrPlaylist prec = nullptr;
+    while (p->nextPlaylist != nullptr) {
+        prec = p;
+        p = p->nextPlaylist;
+    }
+
+    // Hapus node terakhir
+    prec->nextPlaylist = nullptr;
+}
+void deleteAfterPlaylist(adrPlaylist prec) {
+
+    if (prec == nullptr || prec->nextPlaylist == nullptr) {
+        return; // tidak ada yang bisa dihapus
+    }
+
+    adrPlaylist p = prec->nextPlaylist;  // node yang akan dihapus
+    prec->nextPlaylist = p->nextPlaylist;
+
+    // putuskan link
+    p->nextPlaylist = nullptr;
+}
+void deletePlaylist(adrUser &user, string namaPlaylist) {
+
+    adrPlaylist p = searchPlaylistUser(user, namaPlaylist);
+    if (p == nullptr) {
+        cout << "Playlist tidak ditemukan.\n";
+        return;
+    }
+
+    // CASE 1: playlist pertama
+    if (p == user->nextPlaylist) {
+        deleteFirstPlaylist(user);
+    }
+    // CASE 2: playlist terakhir
+    else if (p->nextPlaylist == nullptr) {
+        deleteLastPlaylist(user);
+    }
+    // CASE 3: playlist di tengah
+    else {
+        adrPlaylist prec = user->nextPlaylist;
+        while (prec->nextPlaylist != p) {
+            prec = prec->nextPlaylist;
+        }
+        deleteAfterPlaylist(prec);
+    }
+
+    cout << "Playlist '" << namaPlaylist << "' berhasil dihapus.\n";
 }
 
 
