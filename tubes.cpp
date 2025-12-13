@@ -183,7 +183,7 @@ void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p){
     p->prev = nullptr;
 }
 
-void deleteSong(listSong &LS){
+void deleteSong(listSong &LS, listUser &LU){
     if (LS.first == nullptr) {
         cout << "Tidak ada lagu dalam list!\n";
         return;
@@ -193,6 +193,16 @@ void deleteSong(listSong &LS){
     cout << "Masukkan judul lagu yang ingin dihapus: ";
     cin >> title;
 
+    adrUser ptrUser = LU.first;
+    while (ptrUser != nullptr){
+        adrPlaylist ptrPlaylist = ptrUser->nextPlaylist;
+        while (ptrPlaylist != nullptr){
+            removeSongFromPlaylist(ptrUser, ptrPlaylist->info.namaPlaylist, title)
+            ptrPlaylist = ptrPlaylist->nextPlaylist;
+        }
+        ptrUser = ptrUser->nextUser;
+    }
+    
     adrSong P = findSong(LS, title);
 
     if (P == nullptr) {
