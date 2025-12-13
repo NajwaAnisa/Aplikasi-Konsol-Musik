@@ -578,7 +578,7 @@ adrSong nextSongLibrary(listSong &LS, adrSong current) {
     string currentArtist = current->info.artist;
     adrSong P = current->next;
 
-    while (P != nullptr) {
+    while (P != current) {
         if (P->info.artist == currentArtist) {
             cout << "Memutar lagu berikutnya oleh artis yang sama: " << currentArtist << endl;
             return P;
@@ -598,7 +598,7 @@ adrSong prevSongLibrary(listSong &LS, adrSong current) {
     string currentArtist = current->info.artist;
     adrSong P = current->prev; // P mulai dari lagu sebelum current
 
-    while (P != nullptr) {
+    while (P != current) {
         
         // Cek apakah artisnya sama
         if (P->info.artist == currentArtist) {
