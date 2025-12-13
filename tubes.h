@@ -73,7 +73,7 @@ struct listPlaylist{
 //menu //
 void menuUser(listUser &LU, listSong &LS, adrUser user);
 void menuAdmin(listUser &LU, listSong &LS);
-void menuPlaylist(listSong &LS, adrUser user);
+void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRelasi &selectedRelasi);/////
 
 // user //
 void createListUser(listUser &LU);
@@ -89,7 +89,7 @@ void insertLastSong(listSong &LS, adrSong p); //menambah lagu
 void displaySong(listSong LS); // melihat lagu
 adrSong findSong(listSong LS, string title);
 void editSong(listSong &LS); // mengubah data lagu
-void deleteSong(listSong &LS); //mengahapus lagu general
+void deleteSong(listSong &LS, listUser &LU);//(terbaru)
 void deleteFirstSong(listSong &LS, adrSong &p);
 void deleteLastSong(listSong &LS, adrSong &p);
 void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p);
@@ -99,6 +99,7 @@ void createListPlaylist(listPlaylist &LP);
 adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal);
 void addPlaylist(adrUser &u, adrPlaylist p);
 void displayAllSongs(listSong LS);
+void displayAllUserPlaylistsAndSongs(adrUser user);//
 void displayPlaylist(adrUser u);
 adrPlaylist searchPlaylistUser(adrUser user, string namaPlaylist);
 
@@ -114,8 +115,8 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
 
 // Untuk Playlist (terhubung ke adrUser user)
 void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title); 
-void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle); // ini blm
-void displayPlaylistSongs(adrUser user, string playlistName); // ini blm
+void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle);
+void displayPlaylistSongs(adrUser user, string playlistName); 
 void playPlaylist(adrUser user, string playlistName); //ini blm tentu kepake
 
 void deleteFirstPlaylist(adrUser &user);
