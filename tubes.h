@@ -62,7 +62,7 @@ struct playlistInfo{
 struct elmPlaylist{
     playlistInfo info;
     adrPlaylist nextPlaylist;
-    adrSong firstSong;
+    adrRelasi firstSong;
 };
 
 struct listPlaylist{

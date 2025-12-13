@@ -35,7 +35,7 @@ adrUser createElmUser(string username, string password, string role){
     p->nextPlaylist = nullptr;
     return p;
 }
-adrPlaylist createElmPlayist(string namaPlaylist, int countSong, int durasiTotal){
+adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal){
     adrPlaylist p = new elmPlaylist;
     p->info.namaPlaylist = namaPlaylist;
     p->info.countSong = 0;
@@ -271,6 +271,7 @@ void menuAdmin(listUser &LU, listSong &LS){
 }
 void menuUser(listUser &LU, listSong &LS, adrUser user) {
     int pilihan = -1;
+    string currentPlaylistName;
     adrSong currentlyPlaying = nullptr; // Lagu yang sedang diputar, bisa dari LS atau Playlist
     bool isFromPlaylist = false;
 
@@ -282,7 +283,7 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         if (currentlyPlaying != nullptr) {
             cout << "3. Next/Prev Lagu yang Sedang Diputar\n";
             cout << "4. Hentikan Lagu\n";
-            cout << "   (Sedang memutar: " << currentlyPlaying->info.judul << ")";
+            cout << "   (Sedang memutar: " << currentlyPlaying->info.title << ")";
             if (isFromPlaylist) {
                 cout << " (dari Playlist: " << currentPlaylistName << ")";
             }
@@ -321,10 +322,13 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
             cin >> subPilihan;
 
             if (subPilihan == 1) {
-                currentlyPlaying = nextSong(currentlyPlaylist, p);
+                currentlyPlaying = nextSongLibrary(LS, currentlyPlaying);
+                if (currentlyPlaying != nullptr) {
+                    playSong(currentlyPlaying);
+                }
 
             } else if (subPilihan == 2) {
-                currentlyPlaying = prevSong(currentlyPlaylist, p);
+                currentlyPlaying = prevSongLibrary(LS, currentlyPlaying);
                 if (currentlyPlaying != nullptr){
                     playSong(currentlyPlaying);
                 }
@@ -364,7 +368,7 @@ void displayAllSongs(listSong LS) {
 
     // Looping untuk menampilkan setiap elemen
     while (P != nullptr) {
-        cout << count << ".  | " << P->info.title << " | " << P->info.artis << " | " << P->info.genre << endl;
+        cout << count << ".  | " << P->info.title << " | " << P->info.artist << " | " << P->info.genre << endl;
         P = P->next;
         count++;
     }
@@ -399,7 +403,7 @@ void displayPlaylist(adrUser u){
 
 void menuPlaylist(listSong &LS, adrUser user) {
     int pilihan = -1;
-
+    string nama;
     while (pilihan != 0) {
         cout << "\n=== ATUR PLAYLIST ===\n";
         cout << "1. Buat Playlist Baru\n";
@@ -416,38 +420,45 @@ void menuPlaylist(listSong &LS, adrUser user) {
         string playlistName, songTitle;
 
         if (pilihan == 1) {
-            cout << "Nama Playlist Baru: ";
-            createPlaylist(user, playlistName);
-        } else if (pilihan == 2) {
-            cout << "Nama Playlist yang akan Dihapus: ";
-            cin >>  playlistName;
-            removePlaylist(user, playlistName);
-        } else if (pilihan == 3) {
-            displayAllPlaylists(user);
-        } else if (pilihan == 4) {
-            cout << "Nama Playlist: ";
-            cin >> playlistName;
-            cout << "Judul Lagu (di Library): ";
-            cin >>  songTitle;
-            addSongToPlaylist(LS, user, playlistName, songTitle);
-        } else if (pilihan == 5) {
-            cout << "Nama Playlist: ";
-            cin >> playlistName);
-            cout << "Judul Lagu (di Playlist): ";
-            cin >> songTitle;
-            removeSongFromPlaylist(user, playlistName, songTitle);
-        } else if (pilihan == 6) {
-            cout << "Nama Playlist: ";
-            cin >> playlistName;
-            displayPlaylistSongs(user, playlistName);
-        } else if (pilihan == 7) {
-            cout << "Nama Playlist yang akan Diputar: ";
-            cin >>  playlistName;
+            cout << "Masukkan Nama Playlist: ";
+            cin >> nama;
+            // BUAT NODE BARU
+            adrPlaylist p = createElmPlaylist(nama, 0, 0);
 
-            adrSong firstSong = playFirstSongFromPlaylist(user, playlistName);
-            if (firstSong != nullptr) {
-                cout << "Memutar lagu pertama dari Playlist: " << playlistName << endl;
-            }
+            // MASUKKAN KE LIST PLAYLIST MILIK USER
+            addPlaylist(user,p);
+
+            cout << "Playlist \"" << nama << "\" berhasil dibuat!\n";
+        } else if (pilihan == 2) {
+            cout << "Masukkan Nama Playlist yang akan Dihapus: ";
+            cin >>  playlistName;
+           // removePlaylist(user, playlistName);
+       // } else if (pilihan == 3) {
+         //   displayAllPlaylists(user);
+       // } else if (pilihan == 4) {
+         //   cout << "Nama Playlist: ";
+           // cin >> playlistName;
+            //cout << "Judul Lagu (di Library): ";
+           // cin >>  songTitle;
+            //addSongToPlaylist(LS, user, playlistName, songTitle);
+        //} else if (pilihan == 5) {
+          //  cout << "Nama Playlist: ";
+           // cin >> playlistName);
+            //cout << "Judul Lagu (di Playlist): ";
+            //cin >> songTitle;
+            //removeSongFromPlaylist(user, playlistName, songTitle);
+        //} else if (pilihan == 6) {
+          //  cout << "Nama Playlist: ";
+            //cin >> playlistName;
+            //displayPlaylistSongs(user, playlistName);
+        //} else if (pilihan == 7) {
+          //  cout << "Nama Playlist yang akan Diputar: ";
+           // cin >>  playlistName;
+
+            //adrSong firstSong = playFirstSongFromPlaylist(user, playlistName);
+            //if (firstSong != nullptr) {
+              //  cout << "Memutar lagu pertama dari Playlist: " << playlistName << endl;
+            //}
         }
     }
 }
@@ -559,13 +570,13 @@ void deletePlaylist(adrUser &user, string namaPlaylist) {
 
 void playSong(adrSong song) {
     if (song != nullptr) {
-        cout << "\n SEDANG MEMUTAR: " << song->info.judul << " - " << song->info.artis << endl;
+        cout << "\n SEDANG MEMUTAR: " << song->info.title << " - " << song->info.artist << endl;
     }
 }
 
 void stopSong(adrSong song) {
     if (song != nullptr) {
-        cout << "\n Pemutaran dihentikan: " << song->info.judul << endl;
+        cout << "\n Pemutaran dihentikan: " << song->info.title << endl;
     }
 }
 
@@ -620,7 +631,7 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p) {
     else if (p == currentPlaylist->firstSong) {
         // Jika p adalah lagu pertama, kita harus looping ke lagu terakhir (LAST).
 
-        adrRelasi Q = currentPlaylist->firstSong
+        adrRelasi Q = currentPlaylist->firstSong;
         if (Q == nullptr){
             return nullptr;
         }
