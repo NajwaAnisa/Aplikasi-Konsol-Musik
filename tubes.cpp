@@ -570,29 +570,48 @@ void stopSong(adrSong song) {
 }
 
 adrSong nextSongLibrary(listSong &LS, adrSong current) {
-    adrSong nextSongLibrary(listSong &LS, adrSong current) {
-    if (current == nullptr) {
-        cout << "Tidak ada lagu yang sedang diputar\n";
+    if (current == nullptr || LS.first == nullptr) {
+        cout << "Library kosong atau tidak ada lagu yang sedang diputar.\n";
         return nullptr;
     } 
-    if (current->next != nullptr) {
-        return current->next;
-    } 
-    else {
-        cout << "Kembali ke lagu pertama di Library\n";
-        return LS.first;
-    }
-}
-adrSong prevSongLibrary(listSong &LS, adrSong current) {
-    if (current == nullptr) {
-        cout << " Tidak ada lagu yang sedang diputar untuk pindah ke selanjutnya.\n";
-        return nullptr;
-    } else{
-        // === MODE 1: NAVIGASI DI GLOBAL LIBRARY (listSong) ==
-            // Ada lagu selanjutnya.
-            return current->prev;
+
+    string currentArtist = current->info.artist;
+    adrSong P = current->next;
+
+    while (P != nullptr) {
+        if (P->info.artist == currentArtist) {
+            cout << "Memutar lagu berikutnya oleh artis yang sama: " << currentArtist << endl;
+            return P;
         }
+        
+        P = P->next; // Pindah ke elemen berikutnya
     }
+    cout << "Tidak ada lagi lagu oleh artis " << currentArtist << ". Kembali ke lagu pertama di Library.\n";
+    return LS.first;
+}
+
+adrSong prevSongLibrary(listSong &LS, adrSong current) {
+    if (current == nullptr || LS.first == nullptr) {
+        cout << "Library kosong atau tidak ada lagu yang sedang diputar.\n";
+        return nullptr;
+    } 
+    string currentArtist = current->info.artist;
+    adrSong P = current->prev; // P mulai dari lagu sebelum current
+
+    while (P != nullptr) {
+        
+        // Cek apakah artisnya sama
+        if (P->info.artist == currentArtist) {
+            cout << "Memutar lagu sebelumnya oleh artis yang sama: " << currentArtist << endl;
+            return P; // Lagu ditemukan, dikembalikan
+        }
+        
+        P = P->prev; // Pindah ke elemen sebelumnya
+    }
+    
+    cout << "Looping: Tidak ada lagi lagu oleh artis " << currentArtist << " sebelumnya. Kembali ke lagu terakhir di Library.\n";
+    return LS.last;
+}
 
 adrRelasi nextSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p){
     if (p == nullptr) {
