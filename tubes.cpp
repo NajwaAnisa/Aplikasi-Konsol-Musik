@@ -570,15 +570,19 @@ void stopSong(adrSong song) {
 }
 
 adrSong nextSongLibrary(listSong &LS, adrSong current) {
+    adrSong nextSongLibrary(listSong &LS, adrSong current) {
     if (current == nullptr) {
-        cout << " Tidak ada lagu yang sedang diputar untuk pindah ke selanjutnya.\n";
+        cout << "Tidak ada lagu yang sedang diputar\n";
         return nullptr;
-    } else{
-        // === MODE 1: NAVIGASI DI GLOBAL LIBRARY (listSong) ==
-            // Ada lagu selanjutnya.
-            return current->next;
-        }
+    } 
+    if (current->next != nullptr) {
+        return current->next;
+    } 
+    else {
+        cout << "Kembali ke lagu pertama di Library\n";
+        return LS.first;
     }
+}
 adrSong prevSongLibrary(listSong &LS, adrSong current) {
     if (current == nullptr) {
         cout << " Tidak ada lagu yang sedang diputar untuk pindah ke selanjutnya.\n";
