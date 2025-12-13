@@ -274,22 +274,17 @@ void menuAdmin(listUser &LU, listSong &LS){
         } else if (pil == 3){
             editSong(LS);
         } else if (pil == 4){
-            deleteSong(LS);
+            deleteSong(LS,LU);
         }
 
     } while (pil != 0);
 }
 void menuUser(listUser &LU, listSong &LS, adrUser user) {
     int pilihan = -1;
-<<<<<<< HEAD
-    string currentPlaylistName;
-    adrSong currentlyPlaying = nullptr; // Lagu yang sedang diputar, bisa dari LS atau Playlist
-=======
 
     adrSong currentSong = nullptr;          // MODE LIBRARY
     adrPlaylist currentPlaylist = nullptr;  // MODE PLAYLIST
     adrRelasi currentRelasi = nullptr;       // MODE PLAYLIST
->>>>>>> 518724b2b8898e7c1fb0ba60a62a27fa6046b4b8
     bool isFromPlaylist = false;
 
     while (pilihan != 0) {
@@ -297,18 +292,11 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         cout << "1. Lihat & Putar Lagu dari Library\n";
         cout << "2. Atur Playlist\n";
 
-<<<<<<< HEAD
-        if (currentlyPlaying != nullptr) {
-            cout << "3. Next/Prev Lagu yang Sedang Diputar\n";
-            cout << "4. Hentikan Lagu\n";
-            cout << "   (Sedang memutar: " << currentlyPlaying->info.title << ")";
-=======
         if (currentSong != nullptr) {
             cout << "3. Next Lagu\n";
             cout << "4. Prev Lagu\n";
             cout << "5. Stop Lagu\n";
             cout << "Sedang memutar: " << currentSong->info.title;
->>>>>>> 518724b2b8898e7c1fb0ba60a62a27fa6046b4b8
             if (isFromPlaylist) {
                 cout << " (Playlist: " << currentPlaylist->info.namaPlaylist << ")";
             }
@@ -339,31 +327,10 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         else if (pilihan == 2) {
             menuPlaylist(LS, user, currentPlaylist, currentRelasi);
 
-<<<<<<< HEAD
-        } else if (pilihan == 3 && currentlyPlaying != nullptr) {
-            cout << "1. Lagu Selanjutnya\n";
-            cout << "2. Lagu Sebelumnya\n";
-            cout << "Pilih: ";
-            int subPilihan;
-            cin >> subPilihan;
-
-            if (subPilihan == 1) {
-                currentlyPlaying = nextSongLibrary(LS, currentlyPlaying);
-                if (currentlyPlaying != nullptr) {
-                    playSong(currentlyPlaying);
-                }
-
-            } else if (subPilihan == 2) {
-                currentlyPlaying = prevSongLibrary(LS, currentlyPlaying);
-                if (currentlyPlaying != nullptr){
-                    playSong(currentlyPlaying);
-                }
-=======
             if (currentPlaylist != nullptr && currentRelasi != nullptr) {
                 currentSong = currentRelasi->pointerSong;
                 isFromPlaylist = true;
                 playSong(currentSong);
->>>>>>> 518724b2b8898e7c1fb0ba60a62a27fa6046b4b8
             }
         }
 
@@ -452,16 +419,12 @@ void displayPlaylist(adrUser u){ //ADA KEMUNGKINAN DIHAPUS TAPI JANGAN DULU
 }
 
 
-void menuPlaylist(listSong &LS, adrUser user) {
+void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRelasi &selectedRelasi){ ////
     int pilihan = -1;
-<<<<<<< HEAD
-    string nama;
-=======
     string namaPlaylist, title;
 
     selectedPlaylist = nullptr;
 
->>>>>>> 518724b2b8898e7c1fb0ba60a62a27fa6046b4b8
     while (pilihan != 0) {
         cout << "\n=== ATUR PLAYLIST ===\n";
         cout << "1. Buat Playlist\n";
@@ -475,47 +438,6 @@ void menuPlaylist(listSong &LS, adrUser user) {
         cin >> pilihan;
 
         if (pilihan == 1) {
-<<<<<<< HEAD
-            cout << "Masukkan Nama Playlist: ";
-            cin >> nama;
-            // BUAT NODE BARU
-            adrPlaylist p = createElmPlaylist(nama, 0, 0);
-
-            // MASUKKAN KE LIST PLAYLIST MILIK USER
-            addPlaylist(user,p);
-
-            cout << "Playlist \"" << nama << "\" berhasil dibuat!\n";
-        } else if (pilihan == 2) {
-            cout << "Masukkan Nama Playlist yang akan Dihapus: ";
-            cin >>  playlistName;
-           // removePlaylist(user, playlistName);
-       // } else if (pilihan == 3) {
-         //   displayAllPlaylists(user);
-       // } else if (pilihan == 4) {
-         //   cout << "Nama Playlist: ";
-           // cin >> playlistName;
-            //cout << "Judul Lagu (di Library): ";
-           // cin >>  songTitle;
-            //addSongToPlaylist(LS, user, playlistName, songTitle);
-        //} else if (pilihan == 5) {
-          //  cout << "Nama Playlist: ";
-           // cin >> playlistName);
-            //cout << "Judul Lagu (di Playlist): ";
-            //cin >> songTitle;
-            //removeSongFromPlaylist(user, playlistName, songTitle);
-        //} else if (pilihan == 6) {
-          //  cout << "Nama Playlist: ";
-            //cin >> playlistName;
-            //displayPlaylistSongs(user, playlistName);
-        //} else if (pilihan == 7) {
-          //  cout << "Nama Playlist yang akan Diputar: ";
-           // cin >>  playlistName;
-
-            //adrSong firstSong = playFirstSongFromPlaylist(user, playlistName);
-            //if (firstSong != nullptr) {
-              //  cout << "Memutar lagu pertama dari Playlist: " << playlistName << endl;
-            //}
-=======
             cout << "Nama playlist: ";
             cin >> namaPlaylist;
             addPlaylist(user, createElmPlayist(namaPlaylist, 0, 0));
@@ -585,7 +507,6 @@ void menuPlaylist(listSong &LS, adrUser user) {
 
             selectedRelasi = R;
             return; // kembali ke menuUser untuk PLAY
->>>>>>> 518724b2b8898e7c1fb0ba60a62a27fa6046b4b8
         }
     }
 }
