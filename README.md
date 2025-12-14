@@ -11,9 +11,10 @@ Fitur utama aplikasi meliputi:
 1.  Pengelolaan lagu dalam library (edit, delete, add, display)
 2.  Pembuatan dan penghapusan playlist
 3.	Menambahkan dan menghapus lagu dari playlist
-4.	Memutar lagu dari library maupun playlist
-5.	Navigasi lagu (Next / Previous) 
-6.	Menampilkan jumlah lagu dan total durasi playlist
+4.	Memutar lagu dari library berdasarkan artist yang sama dengan lagu yang sedang diputar
+5.	Memutar lagu dari playlist
+6.	Navigasi lagu (Next / Previous) 
+7.	Menampilkan jumlah lagu dan total durasi playlist
 
 langkah-langkah menjalankan program:
 1. saat masuk ke aplikasi akan menampilkan menu login, disini user bisa memilih 1 atau 0
@@ -79,7 +80,7 @@ setelah itu akan menampilkan kembali menu user dengan tambahan ada navigasi lagu
          Pilih:
 User bisa memilih mau next/prev/stop song;
 
-5. Saat User memilih pilihan 2 maka akan menampilkan menu Playlist
+5. Saat User memilih pilihan 4 maka akan menampilkan menu Playlist
 
          === ATUR PLAYLIST ===
          1. Buat Playlist
