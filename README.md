@@ -46,12 +46,13 @@ admin akan memilih sesuai yang ingin dilakukan, ketika ingin ganti user tinggal 
 
 3. jika login sebagai user maka akan menampilkan menu user
 
-         === MENU USER (user..) ===
+         === MENU USER (aira) ===
          1. Lihat & Putar Lagu dari Library
-         2. Atur Playlist
+         2. Mengurutkan lagu berdasarkan Title
+         3. Mengurutkan lagu berdasarkan Genre
+         4. Atur Playlist
          0. Logout
          Pilih:
-
 4. ketika memilih pilihan 1 (menu user) akan menampilkan semua lagu library dan menginputkan judul lagu yang ingin diputar
 
          ========================================
@@ -66,11 +67,36 @@ admin akan memilih sesuai yang ingin dilakukan, ketika ingin ganti user tinggal 
 setelah itu akan menampilkan kembali menu user dengan tambahan ada navigasi lagu (next/prev/stop);
          
          === MENU USER (aira) ===
-      1. Lihat & Putar Lagu dari Library
-      2. Atur Playlist
-      3. Next Lagu
-      4. Prev Lagu
-      5. Stop Lagu
-      Sedang memutar: ..
-      0. Logout
+         1. Lihat & Putar Lagu dari Library
+         2. Mengurutkan lagu berdasarkan Title
+         3. Mengurutkan lagu berdasarkan Genre
+         4. Atur Playlist
+         5. Next Lagu
+         6. Prev Lagu
+         7. Stop Lagu
+            Sedang memutar: w
+         0. Logout
+         Pilih:
+User bisa memilih mau next/prev/stop song
+5. Saat User memilih pilihan 2 maka akan menampilkan menu Playlist
+
+      === ATUR PLAYLIST ===
+      1. Buat Playlist
+      2. Lihat Playlist & Lagu
+      3. Hapus Playlist
+      4. Tambah Lagu ke Playlist
+      5. Hapus Lagu dari Playlist
+      6. Putar Playlist
+      0. Kembali
       Pilih:
+Disini User bisa memilih sesuai keinginan
+
+6. Ketika ingin kembali pilih 0, lalu pilih logout akan kembali ke menu login;
+
+         === MENU LOGIN ===
+         1. Login
+         0. Keluar Program
+         Pilih: 0
+         Program selesai.
+Aplikasi berakhir
+
