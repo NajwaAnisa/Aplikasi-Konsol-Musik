@@ -254,8 +254,8 @@ void menuAdmin(listUser &LU, listSong &LS){
         cin >> pil;
 
         if (pil == 1) {
-            string title, artist, genre, album;
-            int song_id, duration_seconds;
+            string title, artist, genre, album, minute, second;
+            int song_id;
 
             cout << "Song_id: ";
             cin >> song_id;
@@ -375,7 +375,7 @@ void menuUser(listUser &LU, listSong &LS, adrUser user){
         } else if (pilihan == 2){
             selectionSortTitleOnLibrary(LS);
         } else if (pilihan == 3){
-            selectionSortByGenre(LS);
+            selectionSortByArtist(LS);
         }
     }
 }
@@ -452,7 +452,7 @@ void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRel
         if (pilihan == 1) {
             cout << "Nama playlist: ";
             cin >> namaPlaylist;
-            addPlaylist(user, createElmPlayist(namaPlaylist, 0));
+            addPlaylist(user, createElmPlaylist(namaPlaylist, 0));
         }
 
         else if (pilihan == 2) {

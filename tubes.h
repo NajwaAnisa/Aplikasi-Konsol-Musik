@@ -127,6 +127,6 @@ adrRelasi createElmPointerSong(adrSong q);
 
 // Untuk fitur-fitur tambahan
 void selectionSortTitleOnLibrary(listSong &LS);
-void selectionSortByGenre(listSong &LS);
+void selectionSortByArtist(listSong &LS);
 
 #endif // TUBES_H_INCLUDED
