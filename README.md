@@ -77,18 +77,19 @@ setelah itu akan menampilkan kembali menu user dengan tambahan ada navigasi lagu
             Sedang memutar: w
          0. Logout
          Pilih:
-User bisa memilih mau next/prev/stop song
+User bisa memilih mau next/prev/stop song;
+
 5. Saat User memilih pilihan 2 maka akan menampilkan menu Playlist
 
-      === ATUR PLAYLIST ===
-      1. Buat Playlist
-      2. Lihat Playlist & Lagu
-      3. Hapus Playlist
-      4. Tambah Lagu ke Playlist
-      5. Hapus Lagu dari Playlist
-      6. Putar Playlist
-      0. Kembali
-      Pilih:
+         === ATUR PLAYLIST ===
+         1. Buat Playlist
+         2. Lihat Playlist & Lagu
+         3. Hapus Playlist
+         4. Tambah Lagu ke Playlist
+         5. Hapus Lagu dari Playlist
+         6. Putar Playlist
+         0. Kembali
+         Pilih:
 Disini User bisa memilih sesuai keinginan
 
 6. Ketika ingin kembali pilih 0, lalu pilih logout akan kembali ke menu login;
