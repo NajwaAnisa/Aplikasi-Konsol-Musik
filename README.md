@@ -66,7 +66,7 @@ admin akan memilih sesuai yang ingin dilakukan, ketika ingin ganti user tinggal 
           SEDANG MEMUTAR: .. - ..
 setelah itu akan menampilkan kembali menu user dengan tambahan ada navigasi lagu (next/prev/stop);
          
-         === MENU USER (aira) ===
+         === MENU USER (...) ===
          1. Lihat & Putar Lagu dari Library
          2. Mengurutkan lagu berdasarkan Title
          3. Mengurutkan lagu berdasarkan Genre
@@ -74,7 +74,7 @@ setelah itu akan menampilkan kembali menu user dengan tambahan ada navigasi lagu
          5. Next Lagu
          6. Prev Lagu
          7. Stop Lagu
-            Sedang memutar: w
+            Sedang memutar: ..
          0. Logout
          Pilih:
 User bisa memilih mau next/prev/stop song;
