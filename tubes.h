@@ -73,7 +73,7 @@ struct listPlaylist{
 //menu //
 void menuUser(listUser &LU, listSong &LS, adrUser user);
 void menuAdmin(listUser &LU, listSong &LS);
-void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRelasi &selectedRelasi);/////
+void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRelasi &selectedRelasi);
 
 // user //
 void createListUser(listUser &LU);
