@@ -11,7 +11,8 @@ struct SongInfo {
     string artist;
     string genre;
     string album;
-    int duration_seconds;
+    string minute; //terbaru
+    string second; //terbaru
 };
 struct elmSong{
     SongInfo info;
@@ -56,7 +57,6 @@ struct listUser {
 struct playlistInfo{
   string namaPlaylist;
   int countSong;
-  int durasiTotal;
 };
 
 struct elmPlaylist{
@@ -84,7 +84,7 @@ adrUser login(listUser LU, string username, string password);
 
 // lagu //
 void createListSong(listSong &LS);
-adrSong createElmSong(int song_id, string title, string artist, string genre, string album, int duration_seconds);
+adrSong createElmSong(int song_id, string title, string artist, string genre, string album, string minute, string second);
 void insertLastSong(listSong &LS, adrSong p); //menambah lagu
 void displaySong(listSong LS); // melihat lagu
 adrSong findSong(listSong LS, string title);
@@ -96,7 +96,7 @@ void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p);
 
 //Playlist//
 void createListPlaylist(listPlaylist &LP);
-adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal);
+adrPlaylist createElmPlaylist(string namaPlaylist, int countSong);
 void addPlaylist(adrUser &u, adrPlaylist p);
 void displayAllSongs(listSong LS);
 void displayAllUserPlaylistsAndSongs(adrUser user);//
@@ -117,7 +117,6 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p);
 void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title); 
 void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle);
 void displayPlaylistSongs(adrUser user, string playlistName); 
-void playPlaylist(adrUser user, string playlistName); //ini blm tentu kepake
 
 void deleteFirstPlaylist(adrUser &user);
 void deleteLastPlaylist(adrUser &user);
@@ -128,7 +127,6 @@ adrRelasi createElmPointerSong(adrSong q);
 
 // Untuk fitur-fitur tambahan
 void selectionSortTitleOnLibrary(listSong &LS);
-void selectionSortByArtist(listSong &LS);
 void selectionSortByGenre(listSong &LS);
 
 #endif // TUBES_H_INCLUDED
