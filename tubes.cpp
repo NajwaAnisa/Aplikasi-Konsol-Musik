@@ -452,7 +452,7 @@ void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRel
         if (pilihan == 1) {
             cout << "Nama playlist: ";
             cin >> namaPlaylist;
-            addPlaylist(user, createElmPlayist(namaPlaylist, 0, 0));
+            addPlaylist(user, createElmPlayist(namaPlaylist, 0));
         }
 
         else if (pilihan == 2) {
