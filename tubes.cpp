@@ -13,14 +13,16 @@ void createListPlaylist(listPlaylist &LP){
     LP.first = nullptr;
     LP.last = nullptr;
 }
-adrSong createElmSong(int song_id, string title, string artist, string genre, string album, int duration_seconds){
+adrSong createElmSong(int song_id, string title, string artist, string genre, string album, string minute, string second){
     adrSong p = new elmSong;
+
     p->info.song_id = song_id;
     p->info.title = title;
     p->info.artist = artist;
     p->info.genre = genre;
     p->info.album = album;
-    p->info.duration_seconds = duration_seconds;
+    p->info.minute = minute;
+    p->info.second = second;
 
     p->next = nullptr;
     p->prev = nullptr;
@@ -35,11 +37,10 @@ adrUser createElmUser(string username, string password, string role){
     p->nextPlaylist = nullptr;
     return p;
 }
-adrPlaylist createElmPlaylist(string namaPlaylist, int countSong, int durasiTotal){
+adrPlaylist createElmPlaylist(string namaPlaylist, int countSong){
     adrPlaylist p = new elmPlaylist;
     p->info.namaPlaylist = namaPlaylist;
     p->info.countSong = 0;
-    p->info.durasiTotal = 0;
     p->nextPlaylist = nullptr;
     p->firstSong = nullptr;
     return p;
@@ -82,17 +83,18 @@ void displayUser(listUser LU){
 }
 void displaySong(listSong LS){
     adrSong P = LS.first;
+
     while (P != nullptr) {
-        cout << "Song_id: " << P->info.song_id << endl;
-        cout << "Title: " << P->info.title << endl;
-        cout << "Artist: " << P->info.artist << endl;
-        cout << "Genre: " << P->info.genre << endl;
-        cout << "Album: " << P->info.album << endl;
-        cout << "Durasi: " << P->info.duration_seconds << endl;
-        cout << "-----------------------------" << endl;
+        cout << "Song ID : " << P->info.song_id << endl;
+        cout << "Judul   : " << P->info.title << endl;
+        cout << "Artist  : " << P->info.artist << endl;
+        cout << "Genre   : " << P->info.genre << endl;
+        cout << "Album   : " << P->info.album << endl;
+        cout << "Durasi  : " << P->info.minute << ":"
+                         << P->info.second << endl;
+        cout << "-----------------------------\n";
         P = P->next;
     }
-
 }
 adrUser login(listUser LU, string username, string password){
     adrUser P = LU.first;
@@ -140,8 +142,11 @@ void editSong(listSong &LS){
     cout << "Album baru: ";
     cin >> P->info.album;
 
-    cout << "Durasi baru: ";
-    cin >> P->info.duration_seconds;
+    cout << "Menit baru  : ";
+    cin >> P->info.minute;
+
+    cout << "Detik baru  : ";
+    cin >> P->info.second;
 
     cout << "\nLagu berhasil diedit!\n";
 
@@ -262,10 +267,12 @@ void menuAdmin(listUser &LU, listSong &LS){
             cin >> genre;
             cout << "Album: ";
             cin >> album;
-            cout << "Durasi: ";
-            cin >> duration_seconds;
+            cout << "Minute: ";
+            cin >> minute;
+            cout << "Second: ";
+            cin >> second;
 
-            adrSong s = createElmSong(song_id, title, artist, genre, album, duration_seconds);
+            adrSong s = createElmSong(song_id, title, artist, genre, album, minute, second);
             insertLastSong(LS, s);
 
             cout << "Lagu berhasil ditambahkan!\n";
@@ -279,7 +286,7 @@ void menuAdmin(listUser &LU, listSong &LS){
 
     } while (pil != 0);
 }
-void menuUser(listUser &LU, listSong &LS, adrUser user) {
+void menuUser(listUser &LU, listSong &LS, adrUser user){
     int pilihan = -1;
 
     adrSong currentSong = nullptr;          // MODE LIBRARY
@@ -290,12 +297,14 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
     while (pilihan != 0) {
         cout << "\n=== MENU USER (" << user->info.username << ") ===\n";
         cout << "1. Lihat & Putar Lagu dari Library\n";
-        cout << "2. Atur Playlist\n";
+        cout << "2. Mengurutkan lagu berdasarkan Title\n";
+        cout << "3. Mengurutkan lagu berdasarkan Genre\n";
+        cout << "4. Atur Playlist\n";
 
         if (currentSong != nullptr) {
-            cout << "3. Next Lagu\n";
-            cout << "4. Prev Lagu\n";
-            cout << "5. Stop Lagu\n";
+            cout << "5. Next Lagu\n";
+            cout << "6. Prev Lagu\n";
+            cout << "7. Stop Lagu\n";
             cout << "Sedang memutar: " << currentSong->info.title;
             if (isFromPlaylist) {
                 cout << " (Playlist: " << currentPlaylist->info.namaPlaylist << ")";
@@ -324,7 +333,7 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         }
 
         // ================= PLAYLIST =================
-        else if (pilihan == 2) {
+        else if (pilihan == 4) {
             menuPlaylist(LS, user, currentPlaylist, currentRelasi);
 
             if (currentPlaylist != nullptr && currentRelasi != nullptr) {
@@ -335,7 +344,7 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         }
 
         // ================= NEXT =================
-        else if (pilihan == 3 && currentSong != nullptr) {
+        else if (pilihan == 5 && currentSong != nullptr) {
             if (isFromPlaylist) {
                 currentRelasi = nextSongPlaylist(currentPlaylist, currentRelasi);
                 currentSong = currentRelasi->pointerSong;
@@ -346,7 +355,7 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         }
 
         // ================= PREV =================
-        else if (pilihan == 4 && currentSong != nullptr) {
+        else if (pilihan == 6 && currentSong != nullptr) {
             if (isFromPlaylist) {
                 currentRelasi = prevSongPlaylist(currentPlaylist, currentRelasi);
                 currentSong = currentRelasi->pointerSong;
@@ -357,12 +366,16 @@ void menuUser(listUser &LU, listSong &LS, adrUser user) {
         }
 
         // ================= STOP =================
-        else if (pilihan == 5 && currentSong != nullptr) {
+        else if (pilihan == 7 && currentSong != nullptr) {
             stopSong(currentSong);
             currentSong = nullptr;
             currentRelasi = nullptr;
             currentPlaylist = nullptr;
             isFromPlaylist = false;
+        } else if (pilihan == 2){
+            selectionSortTitleOnLibrary(LS);
+        } else if (pilihan == 3){
+            selectionSortByGenre(LS);
         }
     }
 }
@@ -393,7 +406,7 @@ void displayAllSongs(listSong LS) {
 
     cout << "------------------------------------------------------------\n";
 }
-void displayPlaylist(adrUser u){ //ADA KEMUNGKINAN DIHAPUS TAPI JANGAN DULU
+void displayPlaylist(adrUser u){
     if (u == nullptr) {
         cout << "User tidak ditemukan.\n";
         return;
@@ -411,8 +424,7 @@ void displayPlaylist(adrUser u){ //ADA KEMUNGKINAN DIHAPUS TAPI JANGAN DULU
 
     while (p != nullptr) {
         cout << i << ". " << p->info.namaPlaylist
-             << " | Lagu: " << p->info.countSong
-             << " | Durasi total: " << p->info.durasiTotal << " detik\n";
+             << " | Lagu: " << p->info.countSong;
         p = p->nextPlaylist;
         i++;
     }
@@ -762,7 +774,6 @@ void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string t
 
     // 5. Update informasi playlist
     PL->info.countSong++;
-    PL->info.durasiTotal += S->info.duration_seconds;
 
     cout << "Lagu \"" << title << "\" berhasil ditambahkan ke playlist \""
          << namaPlaylist << "\".\n";
@@ -804,7 +815,6 @@ void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle)
 
     // 4. UPDATE jumlah lagu dan durasi
     p->info.countSong--;
-    p->info.durasiTotal -= r->pointerSong->info.duration_seconds;
 
     delete r;
 
@@ -823,7 +833,6 @@ void displayAllUserPlaylistsAndSongs(adrUser user){
     while (p != nullptr){
         cout << "\nPlaylist: " << p->info.namaPlaylist << endl;
         cout << "Jumlah Lagu  : " << p->info.countSong << endl;
-        cout << "Total Durasi : " << p->info.durasiTotal << " detik\n";
 
         adrRelasi r = p->firstSong;
 
@@ -831,8 +840,11 @@ void displayAllUserPlaylistsAndSongs(adrUser user){
             cout << "(Kosong)\n";
         } else {
             while (r != nullptr){
-                cout << "- " << r->pointerSong->info.title
-                     << " (" << r->pointerSong->info.duration_seconds << " detik)\n";
+                cout << "- "
+                     << r->pointerSong->info.title
+                     << " - "
+                     << r->pointerSong->info.artist
+                     << endl;   
                 r = r->next;
             }
         }
