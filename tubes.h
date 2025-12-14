@@ -126,6 +126,9 @@ void deletePlaylist(adrUser &user, string namaPlaylist);
 
 adrRelasi createElmPointerSong(adrSong q);
 
-
+// Untuk fitur-fitur tambahan
+void selectionSortTitleOnLibrary(listSong &LS);
+void selectionSortByArtist(listSong &LS);
+void selectionSortByGenre(listSong &LS);
 
 #endif // TUBES_H_INCLUDED

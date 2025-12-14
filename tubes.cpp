@@ -197,7 +197,7 @@ void deleteSong(listSong &LS, listUser &LU){
     while (ptrUser != nullptr){
         adrPlaylist ptrPlaylist = ptrUser->nextPlaylist;
         while (ptrPlaylist != nullptr){
-            removeSongFromPlaylist(ptrUser, ptrPlaylist->info.namaPlaylist, title)
+            removeSongFromPlaylist(ptrUser, ptrPlaylist->info.namaPlaylist, title);
             ptrPlaylist = ptrPlaylist->nextPlaylist;
         }
         ptrUser = ptrUser->nextUser;
@@ -840,3 +840,84 @@ void displayAllUserPlaylistsAndSongs(adrUser user){
         p = p->nextPlaylist;
     }
 }
+void selectionSortTitleOnLibrary(listSong &LS){
+// I.S : List lagu (LS) mungkin kosong atau berisi beberapa elemen. Jika berisi, elemen-elemen belum terurut berdasarkan judul lagu.
+// F.S : Seluruh elemen pada list akan terurut membesar (A-Z) berdasarkan judul lagu.
+
+    if(LS.first == nullptr){
+        cout << "Tidak ada lagu di library untuk diurutkan\n";
+        return ;
+    }
+    adrSong p;
+    p = LS.first;
+    SongInfo temp;
+    while(p != nullptr){
+        adrSong mini = p;
+        adrSong q = p->next;
+        while(q != nullptr){
+            if(q->info.title < mini->info.title){
+                mini = q;
+            }
+            q = q->next;
+        }
+        temp = p->info;
+        p->info = mini->info;
+        mini->info = temp;
+
+        p = p -> next;
+    }
+}
+void selectionSortByArtist(listSong &LS){
+// I.S : List lagu (LS) mungkin kosong atau berisi beberapa elemen.Jika berisi, elemen-elemen belum terurut berdasarkan nama artis.
+// F.S : Seluruh elemen pada list akan terurut membesar (A-Z) berdasarkan nama artis.
+
+
+    if(LS.first == nullptr){
+        cout << "Tidak ada lagu di library untuk diurutkan\n";
+        return ;
+    }
+    adrSong p;
+    p = LS.first;
+    SongInfo temp;
+    while(p != nullptr){
+        adrSong mini = p;
+        adrSong q = p->next;
+        while(q != nullptr){
+            if(q->info.artist < mini->info.artist){
+                mini = q;
+            }
+            q = q->next;
+        }
+        temp = p->info;
+        p->info = mini->info;
+        mini->info = temp;
+
+        p = p -> next;
+    }
+}
+void selectionSortByGenre(listSong &LS){
+// I.S : List lagu (LS) mungkin kosong atau berisi beberapa elemen.Jika berisi, elemen-elemen belum terurut berdasarkan genre lagu.
+// F.S : Seluruh elemen pada list akan terurut membesar (A-Z) berdasarkan genre lagu.
+
+
+    adrSong p;
+    SongInfo temp;
+    p = LS.first;
+    while(p != nullptr){
+        adrSong mini = p;
+        adrSong q = p->next;
+        while(q != nullptr){
+            if (q->info.genre < mini->info.genre){
+                mini = q;
+            }
+            q = q -> next;
+        }
+        temp = p->info;
+        p->info = mini->info;
+        mini->info = temp;
+
+        p = p-> next;
+    }
+}
+
+
