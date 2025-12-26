@@ -39,6 +39,9 @@ adrSong createElmSong(int song_id, string title, string artist, string genre, st
     p->prev = nullptr;
     return p;
 }
+
+// Input: Data kredensial (username, password, role)
+// Mengembalikan alamat elemen User yang baru dibuat
 adrUser createElmUser(string username, string password, string role){
     adrUser p = new elmUser;
     p->info.username = username;
@@ -48,6 +51,9 @@ adrUser createElmUser(string username, string password, string role){
     p->nextPlaylist = nullptr;
     return p;
 }
+
+// Input: Nama playlist dan jumlah lagu (countSong akan di-reset ke 0)
+// Mengembalikan alamat elemen Playlist yang baru dibuat
 adrPlaylist createElmPlaylist(string namaPlaylist, int countSong){
     adrPlaylist p = new elmPlaylist;
     p->info.namaPlaylist = namaPlaylist;
@@ -56,6 +62,9 @@ adrPlaylist createElmPlaylist(string namaPlaylist, int countSong){
     p->firstSong = nullptr;
     return p;
 }
+
+// Input: Pointer (q) yang menunjuk ke elemen lagu yang sudah ada di List Song
+// Mengembalikan alamat elemen Relasi (penghubung ke lagu)
 adrRelasi createElmPointerSong(adrSong q){
     adrRelasi p = new elmRelasiPlaylistSong;
     p->next = nullptr;
@@ -63,6 +72,9 @@ adrRelasi createElmPointerSong(adrSong q){
     p->pointerSong = q;
     return p;
 }
+
+// IS: List User (LU) mungkin kosong, p adalah elemen user baru yang sudah teralokasi
+// FS: p berhasil ditambahkan sebagai elemen pertama  di List User (LU)
 void insertFirstUser(listUser &LU, adrUser p){
     if (LU.first == nullptr){
         LU.first = p;
@@ -72,6 +84,9 @@ void insertFirstUser(listUser &LU, adrUser p){
     }
 
 }
+
+// IS: List Song (LS) mungkin kosong, p adalah elemen lagu baru yang sudah teralokasi
+// FS: p berhasil ditambahkan di akhir List Song (LS). Menggunakan mekanisme Double Linked List
 void insertLastSong(listSong &LS, adrSong p){
     if (LS.first == nullptr) {
         LS.first = p;
@@ -82,6 +97,9 @@ void insertLastSong(listSong &LS, adrSong p){
         LS.last = p;
     }
 }
+
+// IS: List User (LU) terdefinisi (mungkin kosong atau berisi elemen)
+// FS: Menampilkan seluruh data user (username, password, role) ke layar.
 void displayUser(listUser LU){
     adrUser P = LU.first;
     while (P != nullptr) {
@@ -92,6 +110,9 @@ void displayUser(listUser LU){
         P = P->nextUser;
     }
 }
+
+// IS: List Song (LS) terdefinisi (mungkin kosong atau berisi elemen)
+// FS: Menampilkan seluruh detail lagu (ID, Judul, Artist, Genre, Album, Durasi) ke layar.
 void displaySong(listSong LS){
     adrSong P = LS.first;
 
@@ -107,6 +128,9 @@ void displaySong(listSong LS){
         P = P->next;
     }
 }
+
+// Input: List User (LU), string username, dan string password yang dicari
+// Mengembalikan alamat User jika username dan password cocok
 adrUser login(listUser LU, string username, string password){
     adrUser P = LU.first;
     while (P != nullptr) {
@@ -117,6 +141,9 @@ adrUser login(listUser LU, string username, string password){
     }
     return nullptr;
 }
+
+// Input: List Song (LS) dan string judul lagu (title)
+// Mengembalikan alamat elemen lagu berdasarkan judul yang dicari
 adrSong findSong(listSong LS, string title){
     adrSong P = LS.first;
     while (P != nullptr) {
@@ -127,6 +154,9 @@ adrSong findSong(listSong LS, string title){
     }
     return nullptr; // tidak ditemukan
 }
+
+// IS: List Song (LS) terdefinisi, mungkin berisi lagu yang ingin dicari
+// FS: Jika lagu ditemukan berdasarkan judul, data info (judul, artis, genre, dll) diupdate.
 void editSong(listSong &LS){
     string title;
     cout << "Masukkan judul lagu yang ingin diedit: ";
@@ -162,6 +192,9 @@ void editSong(listSong &LS){
     cout << "\nLagu berhasil diedit!\n";
 
 }
+
+// IS: List Song (LS) terdefinisi dan tidak kosong
+// FS: Elemen pertama list dikeluarkan dari list dan alamatnya disimpan dalam pointer p.
 void deleteFirstSong(listSong &LS, adrSong &p){
     p = LS.first;
 
@@ -175,6 +208,9 @@ void deleteFirstSong(listSong &LS, adrSong &p){
         p->next = nullptr;
     }
 }
+
+// IS: List Song (LS) terdefinisi dan tidak kosong
+// FS: Elemen terakhir list dikeluarkan dari list dan alamatnya disimpan dalam pointer p.
 void deleteLastSong(listSong &LS, adrSong &p){
     p = LS.last;
 
@@ -189,6 +225,8 @@ void deleteLastSong(listSong &LS, adrSong &p){
     }
 }
 
+// IS: List Song (LS) terdefinisi, prec adalah pointer yang menunjuk elemen sebelum elemen yang akan dihapus
+// FS: Elemen setelah prec dihapus dari list, alamatnya disimpan di p, dan hubungan antar node (next/prev) diperbarui
 void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p){
     p = prec->next;
 
@@ -199,6 +237,8 @@ void deleteAfterSong(listSong &LS, adrSong prec, adrSong &p){
     p->prev = nullptr;
 }
 
+// IS: List Song (LS) dan List User (LU) terdefinisi
+// FS: Lagu dengan judul tertentu dihapus dari List Utama (LS) DAN dihapus dari seluruh playlist
 void deleteSong(listSong &LS, listUser &LU){
     if (LS.first == nullptr) {
         cout << "Tidak ada lagu dalam list!\n";
@@ -252,6 +292,8 @@ void deleteSong(listSong &LS, listUser &LU){
     cout << "Lagu berhasil dihapus!\n";
 }
 
+// IS: List User (LU) dan List Song (LS) terdefinisi
+// FS: Menampilkan antarmuka menu untuk Admin dan menjalankan fungsi (Tambah, Lihat, Edit, Hapus)
 void menuAdmin(listUser &LU, listSong &LS){
     int pil;
     do {
@@ -297,6 +339,10 @@ void menuAdmin(listUser &LU, listSong &LS){
 
     } while (pil != 0);
 }
+
+// IS: List User (LU), List Song (LS) terdefinisi, dan pointer user (user) menunjuk ke user yang sedang login
+// FS: Menampilkan antarmuka interaktif untuk user yang meliputi navigasi library, playlist, pengurutan lagu, serta kontrol pemutaran lagu (play, next, prev, stop). 
+// Status pemutaran (currentSong) diperbarui sesuai aksi pengguna.
 void menuUser(listUser &LU, listSong &LS, adrUser user){
     int pilihan = -1;
 
@@ -391,6 +437,8 @@ void menuUser(listUser &LU, listSong &LS, adrUser user){
     }
 }
 
+// IS: List Song (LS) terdefinisi 
+// FS: Menampilkan daftar seluruh lagu yang ada di library dalam format tabel sederhana (No, Judul, Artis, Genre). Jika kosong, menampilkan pesan bahwa library kosong.
 void displayAllSongs(listSong LS) {
     if (LS.first == nullptr) {
         cout << "--- Library Lagu Kosong ---\n";
@@ -417,6 +465,10 @@ void displayAllSongs(listSong LS) {
 
     cout << "------------------------------------------------------------\n";
 }
+
+// IS: Pointer user (u) terdefinisi dan menunjuk ke elemen user tertentu
+// FS: Menampilkan daftar nama playlist dan jumlah lagu di dalamnya yang dimiliki oleh user tersebut.
+//     Jika user belum memiliki playlist, menampilkan pesan "Tidak ada playlist".
 void displayPlaylist(adrUser u){
     if (u == nullptr) {
         cout << "User tidak ditemukan.\n";
@@ -441,7 +493,8 @@ void displayPlaylist(adrUser u){
     }
 }
 
-
+// IS: List Song (LS) dan user terdefinisi. selectedPlaylist dan selectedRelasi mungkin bernilai nullptr.
+// FS: Menampilkan menu pengelolaan playlist (buat, lihat, hapus, tambah lagu, hapus lagu, putar).
 void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRelasi &selectedRelasi){ ////
     int pilihan = -1;
     string namaPlaylist, title;
@@ -534,6 +587,8 @@ void menuPlaylist(listSong &LS,adrUser user,adrPlaylist &selectedPlaylist,adrRel
     }
 }
 
+// IS: Pointer user (u) terdefinisi, p adalah elemen playlist baru yang sudah dibuat (createElmPlaylist).
+// FS: p ditambahkan ke akhir daftar playlist milik user tersebut (Insert Last pada list playlist user).
 void addPlaylist(adrUser &u, adrPlaylist p) {
     if (u->nextPlaylist == nullptr) {
         // playlist pertama user
@@ -547,6 +602,9 @@ void addPlaylist(adrUser &u, adrPlaylist p) {
         q->nextPlaylist = p;  // sambungkan playlist baru di akhir
     }
 }
+
+// Input: Pointer user dan string nama playlist yang dicari
+// Mengembalikan alamat playlist berdasarkan nama yang dicari pada user tertentu
 adrPlaylist searchPlaylistUser(adrUser user, string namaPlaylist) {
     adrPlaylist P = user->nextPlaylist;
     while (P != nullptr) {
@@ -557,6 +615,9 @@ adrPlaylist searchPlaylistUser(adrUser user, string namaPlaylist) {
     }
     return nullptr;
 }
+
+// IS: Pointer user terdefinisi dan mungkin memiliki list playlist.
+// FS: Elemen playlist pertama milik user dihapus dari list. Pointer head (nextPlaylist) user bergeser.
 void deleteFirstPlaylist(adrUser &user) {
     adrPlaylist p = user->nextPlaylist;
 
@@ -572,6 +633,8 @@ void deleteFirstPlaylist(adrUser &user) {
     p->nextPlaylist = nullptr;
 }
 
+// IS: Pointer user terdefinisi dan mungkin memiliki list playlist (nextPlaylist).
+// FS: Elemen playlist terakhir dalam list milik user dihapus.
 void deleteLastPlaylist(adrUser &user) {
 
     if (user->nextPlaylist == nullptr) {
@@ -597,6 +660,10 @@ void deleteLastPlaylist(adrUser &user) {
     // Hapus node terakhir
     prec->nextPlaylist = nullptr;
 }
+
+// IS: Pointer prec (elemen sebelum target) terdefinisi
+// FS: Elemen setelah prec dihapus dari list playlist user dan link disambungkan kembali.
+// Memori elemen yang dihapus belum didealokasi (p->next diset nullptr).
 void deleteAfterPlaylist(adrPlaylist prec) {
 
     if (prec == nullptr || prec->nextPlaylist == nullptr) {
@@ -609,6 +676,9 @@ void deleteAfterPlaylist(adrPlaylist prec) {
     // putuskan link
     p->nextPlaylist = nullptr;
 }
+
+// IS: List playlist user terdefinisi, mungkin berisi playlist yang ingin dihapus
+// FS: Playlist dengan nama tertentu dicari. Jika ditemukan, dihapus dari list baik di posisi pertama, terakhir, maupun tengah menggunakan prosedur penghapusan yang sesuai.
 void deletePlaylist(adrUser &user, string namaPlaylist) {
 
     adrPlaylist p = searchPlaylistUser(user, namaPlaylist);
@@ -636,21 +706,28 @@ void deletePlaylist(adrUser &user, string namaPlaylist) {
 
     cout << "Playlist '" << namaPlaylist << "' berhasil dihapus.\n";
 }
-
-
-
+tidak nullptr)
+// IS: Pointer song terdefinisi 
+// FS: Menampilkan pesan ke layar bahwa lagu tersebut sedang diputar.
 void playSong(adrSong song) {
     if (song != nullptr) {
         cout << "\n SEDANG MEMUTAR: " << song->info.title << " - " << song->info.artist << endl;
     }
 }
 
+// IS: Pointer song terdefinisi 
+// FS: Menampilkan pesan ke layar bahwa pemutaran lagu tersebut dihentikan.
 void stopSong(adrSong song) {
     if (song != nullptr) {
         cout << "\n Pemutaran dihentikan: " << song->info.title << endl;
     }
 }
 
+// Mengembalikan alamat lagu berikutnya dalam Library berdasarkan logika Artist
+// Input: List Lagu (LS) dan alamat lagu yang sedang diputar (current)
+// Return: 1. Elemen next jika tersedia. 
+//         2. Jika di akhir list, mencari lagu lain dengan Artist yang sama.
+//         3. Jika tidak ada Artist yang sama, kembali ke elemen pertama (LS.first).
 adrSong nextSongLibrary(listSong &LS, adrSong current) {
     if (current == nullptr || LS.first == nullptr) {
         cout << "Library kosong atau tidak ada lagu yang sedang diputar.\n";
@@ -683,6 +760,11 @@ adrSong nextSongLibrary(listSong &LS, adrSong current) {
 
     return LS.first;
 }
+
+// Mengembalikan alamat lagu sebelumnya dalam Library dengan logika filter Artist
+// Input: List Song (LS) dan alamat lagu yang sedang diputar (current)
+// Return: Pointer lagu (adrSong) sebelumnya yang memiliki Artist yang sama. 
+//         Jika tidak ditemukan hingga awal list, mengembalikan LS.last (looping).
 adrSong prevSongLibrary(listSong &LS, adrSong current) {
     if (current == nullptr || LS.first == nullptr) {
         cout << "Library kosong atau tidak ada lagu yang sedang diputar.\n";
@@ -705,6 +787,11 @@ adrSong prevSongLibrary(listSong &LS, adrSong current) {
     cout << "Looping: Tidak ada lagi lagu oleh artis " << currentArtist << " sebelumnya. Kembali ke lagu terakhir di Library.\n";
     return LS.last;
 }
+
+// Mengembalikan alamat relasi lagu berikutnya dalam Playlist
+// Input: Pointer playlist aktif dan relasi lagu saat ini (p)
+// Return: Pointer relasi (adrRelasi) berikutnya. Jika p adalah elemen terakhir, 
+//         kembali ke elemen pertama.
 adrRelasi nextSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p){
     if (p == nullptr) {
         cout << " Tidak ada lagu yang sedang diputar untuk pindah ke selanjutnya.\n";
@@ -720,6 +807,10 @@ adrRelasi nextSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p){
     }
 }
 
+// Mengembalikan alamat relasi lagu sebelumnya dalam Playlist
+// Input: Pointer playlist aktif dan relasi lagu saat ini (p)
+// Return: Pointer relasi (adrRelasi) sebelumnya. Jika p adalah elemen pertama, 
+//         melakukan traversal untuk mengembalikan elemen terakhir.
 adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p) {
     if (p == nullptr) {
         cout << "Tidak ada lagu yang sedang diputar untuk pindah ke sebelumnya.\n";
@@ -749,7 +840,9 @@ adrRelasi prevSongPlaylist(adrPlaylist currentPlaylist, adrRelasi p) {
     }
 }
 
-
+// IS: List Song (LS) dan User terdefinisi. Nama playlist dan judul lagu diberikan oleh input.
+// FS: Jika playlist dan lagu ditemukan, sebuah elemen relasi baru dibuat dan dihubungkan 
+//     ke dalam list lagu milik playlist tersebut (Insert Last). countSong bertambah.
 void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string title) {
 
     // 1. Cari playlist berdasarkan nama
@@ -790,6 +883,8 @@ void addSongToPlaylist(listSong &LS, adrUser user, string namaPlaylist, string t
          << namaPlaylist << "\".\n";
 }
 
+// IS: User terdefinisi, memiliki minimal satu playlist.
+// FS: Relasi ke lagu dengan judul tertentu dihapus dari playlist yang dimaksud dan countSong berkurang.
 void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle){
 
     // 1. cari playlist dulu
@@ -831,6 +926,9 @@ void removeSongFromPlaylist(adrUser user, string playlistName, string songTitle)
 
     cout << "Lagu \"" << songTitle << "\" berhasil dihapus dari playlist \"" << playlistName << "\".\n";
 }
+
+// IS: Pointer user terdefinisi.
+// FS: Menampilkan seluruh playlist yang dimiliki user beserta rincian lagu (judul & artis) yang ada di dalam setiap playlist tersebut ke layar.
 void displayAllUserPlaylistsAndSongs(adrUser user){
     adrPlaylist p = user->nextPlaylist;
 
@@ -863,6 +961,10 @@ void displayAllUserPlaylistsAndSongs(adrUser user){
         p = p->nextPlaylist;
     }
 }
+
+// IS: List lagu (LS) terdefinisi, mungkin kosong atau berisi beberapa elemen yang belum terurut.
+// FS: Seluruh elemen pada list terurut secara ascending (A-Z) berdasarkan JUDUL lagu.
+// Prosedur ini menggunakan metode Selection Sort dengan menukar isi data (info), bukan alamat node.
 void selectionSortTitleOnLibrary(listSong &LS){
 // I.S : List lagu (LS) mungkin kosong atau berisi beberapa elemen. Jika berisi, elemen-elemen belum terurut berdasarkan judul lagu.
 // F.S : Seluruh elemen pada list akan terurut membesar (A-Z) berdasarkan judul lagu.
@@ -890,6 +992,10 @@ void selectionSortTitleOnLibrary(listSong &LS){
         p = p -> next;
     }
 }
+
+// IS: List lagu (LS) terdefinisi, mungkin kosong atau berisi beberapa elemen yang belum terurut.
+// FS: Seluruh elemen pada list terurut secara ascending (A-Z) berdasarkan nama ARTIS.
+// Prosedur ini menggunakan metode Selection Sort dengan menukar isi data (info).
 void selectionSortByArtist(listSong &LS){
 // I.S : List lagu (LS) mungkin kosong atau berisi beberapa elemen.Jika berisi, elemen-elemen belum terurut berdasarkan nama artis.
 // F.S : Seluruh elemen pada list akan terurut membesar (A-Z) berdasarkan nama artis.
