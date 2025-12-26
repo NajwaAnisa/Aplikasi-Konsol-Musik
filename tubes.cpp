@@ -2,17 +2,28 @@
 #include "TUBES.h"
 using namespace std;
 
+// IS: List User (LU) belum terdefinisi 
+// FS: List User (LU) terbentuk sebagai list kosong (LU.first = nullptr)
 void createListUser(listUser &LU){
     LU.first = nullptr;
 }
+
+// IS: List Song (LS) belum terdefinisi 
+// FS: List Song (LS) terbentuk sebagai list kosong (LS.first dan LS.last = nullptr)
 void createListSong(listSong &LS){
     LS.first = nullptr;
     LS.last = nullptr;
 }
+
+// IS: List Playlist (LP) belum terdefinisi 
+// FS: List Playlist (LP) terbentuk sebagai list kosong (LP.first dan LP.last = nullptr)
 void createListPlaylist(listPlaylist &LP){
     LP.first = nullptr;
     LP.last = nullptr;
 }
+
+// Input: Data detail lagu (id, judul, penyanyi, genre, album, menit, detik)
+// Mengembalikan alamat (pointer) dari elemen lagu yang baru dibuat
 adrSong createElmSong(int song_id, string title, string artist, string genre, string album, string minute, string second){
     adrSong p = new elmSong;
 
