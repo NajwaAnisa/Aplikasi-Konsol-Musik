@@ -728,36 +728,29 @@ void stopSong(adrSong song) {
 //         2. Jika di akhir list, mencari lagu lain dengan Artist yang sama.
 //         3. Jika tidak ada Artist yang sama, kembali ke elemen pertama (LS.first).
 adrSong nextSongLibrary(listSong &LS, adrSong current) {
+
     if (current == nullptr || LS.first == nullptr) {
         cout << "Library kosong atau tidak ada lagu yang sedang diputar.\n";
         return nullptr;
     }
-
-    // === 1. Jika masih ada lagu setelah current → lanjut normal ===
-    if (current->next != nullptr) {
-        return current->next;
-    }
-
-    // === 2. Jika current adalah lagu terakhir ===
     string currentArtist = current->info.artist;
-    adrSong P = LS.first;
-
-    // Cari lagu lain dengan artist yang sama (selain current)
-    while (P != nullptr) {
-        if (P != current && P->info.artist == currentArtist) {
-            cout << "Memutar lagu lain oleh artis yang sama: "
-                 << currentArtist << endl;
+    adrSong P = current->next;
+    while (P != current && P != nullptr) {
+        if (P->info.artist == currentArtist) {
+            cout << "Memutar lagu berikutnya oleh artis yang sama: " << currentArtist << endl;
             return P;
         }
-        P = P->next;
+        if (P == LS.last) {
+            P = LS.first;
+        } else {
+            P = P->next; // Pindah ke elemen berikutnya
+        }
+
     }
 
-    // === 3. Jika tidak ada lagu artist sama → kembali ke awal ===
-    cout << "Tidak ada lagu lain oleh artis "
-         << currentArtist
-         << ". Kembali ke lagu pertama di Library.\n";
-
+    cout << "Tidak ada lagi lagu oleh artis " << currentArtist << ". Kembali ke lagu pertama di Library.\n";
     return LS.first;
+
 }
 
 // Mengembalikan alamat lagu sebelumnya dalam Library dengan logika filter Artist
@@ -765,26 +758,28 @@ adrSong nextSongLibrary(listSong &LS, adrSong current) {
 // Return: Pointer lagu (adrSong) sebelumnya yang memiliki Artist yang sama. 
 //         Jika tidak ditemukan hingga awal list, mengembalikan LS.last (looping).
 adrSong prevSongLibrary(listSong &LS, adrSong current) {
+
     if (current == nullptr || LS.first == nullptr) {
         cout << "Library kosong atau tidak ada lagu yang sedang diputar.\n";
         return nullptr;
     }
     string currentArtist = current->info.artist;
     adrSong P = current->prev; // P mulai dari lagu sebelum current
-
-    while (P != nullptr) {
-
+    while (P != current) {
         // Cek apakah artisnya sama
         if (P->info.artist == currentArtist) {
             cout << "Memutar lagu sebelumnya oleh artis yang sama: " << currentArtist << endl;
             return P; // Lagu ditemukan, dikembalikan
         }
-
-        P = P->prev; // Pindah ke elemen sebelumnya
+        if (P == LS.first) {
+            P = LS.last;
+        } else {
+            P = P->prev; // Pindah ke elemen sebelumnya
+        }
     }
-
-    cout << "Looping: Tidak ada lagi lagu oleh artis " << currentArtist << " sebelumnya. Kembali ke lagu terakhir di Library.\n";
+    cout << "Tidak ada lagi lagu oleh artis " << currentArtist << " sebelumnya. Kembali ke lagu terakhir di Library.\n";
     return LS.last;
+
 }
 
 // Mengembalikan alamat relasi lagu berikutnya dalam Playlist
