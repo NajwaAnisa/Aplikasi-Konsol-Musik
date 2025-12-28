@@ -706,7 +706,6 @@ void deletePlaylist(adrUser &user, string namaPlaylist) {
 
     cout << "Playlist '" << namaPlaylist << "' berhasil dihapus.\n";
 }
-tidak nullptr)
 // IS: Pointer song terdefinisi 
 // FS: Menampilkan pesan ke layar bahwa lagu tersebut sedang diputar.
 void playSong(adrSong song) {
